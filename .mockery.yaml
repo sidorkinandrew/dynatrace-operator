@@ -65,7 +65,13 @@ packages:
     interfaces:
       APIClient:
       APIRequest:
+  github.com/Dynatrace/dynatrace-operator/pkg/clients/dynatrace/hostevent:
+    interfaces:
+      APIClient:
   github.com/Dynatrace/dynatrace-operator/pkg/clients/dynatrace/settings:
+    interfaces:
+      APIClient:
+  github.com/Dynatrace/dynatrace-operator/pkg/clients/dynatrace/version:
     interfaces:
       APIClient:
   github.com/Dynatrace/dynatrace-operator/pkg/clients/edgeconnect:
