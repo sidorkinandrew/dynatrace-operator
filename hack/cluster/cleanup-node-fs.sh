@@ -143,6 +143,26 @@ spec:
                 exit_code=1
             fi
 
+            echo 'Removing CRI-O injection hooks...';
+            # cleanup leftover hooks for CRIO in case there was a ClassicFullStack installation before
+            crio_hook_files=(
+                /mnt/root/etc/containers/oci/hooks.d/oneagent_crio_injection-0.1.0.json
+                /mnt/root/etc/containers/oci/hooks.d/oneagent_crio_injection-1.0.0.json
+                /mnt/root/run/containers/oci/hooks.d/oneagent_crio_injection-0.1.0.json
+                /mnt/root/run/containers/oci/hooks.d/oneagent_crio_injection-1.0.0.json
+            )
+            for hook_file in "\${crio_hook_files[@]}"; do
+                if [ -f "\$hook_file" ]; then
+                    if rm -f "\$hook_file" 2>&1; then
+                        echo "Removed CRI-O hook file: \$hook_file"
+                    else
+                        echo "ERROR: Failed to remove CRI-O hook file: \$hook_file"
+                    fi
+                else
+                    echo "CRI-O hook file not found (skipping): \$hook_file"
+                fi
+            done
+
             if [ \$exit_code -eq 0 ]; then
                 echo 'SUCCESS: Node filesystem cleanup completed successfully.';
                 echo 'SUCCESS' > /dev/termination-log
